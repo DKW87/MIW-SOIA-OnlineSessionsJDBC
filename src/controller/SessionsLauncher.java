@@ -13,13 +13,13 @@ public class SessionsLauncher {
         DBaccess dBaccess = new DBaccess("OnlineSessions", "userOnlineSessions", "userOnlineSessionsPW");
         dBaccess.openConnection();
 
-        MuzikantDAO muzikantDAO = new MuzikantDAO(dBaccess);
-        muzikantDAO.slaMuzikantOp(new Muzikant("Lilly Vos", "zang", 23));
+        TechnicusDAO technicusDAO = new TechnicusDAO(dBaccess);
+        technicusDAO.slaTechnicusOp(new Technicus("691337","Danny","0629400561"));
 
-        List<Muzikant> muzikantenInDeDatabase = muzikantDAO.getMuzikanten();
+        List<Technicus> techniciInDeDatabase = technicusDAO.getTechnici();
 
-        for (Muzikant muzikant : muzikantenInDeDatabase) {
-            System.out.println(muzikant);
+        for (Technicus technicus : techniciInDeDatabase) {
+            System.out.println(technicus);
         }
 
         dBaccess.closeConnection();
