@@ -4,25 +4,23 @@ package controller;
 import database.*;
 import model.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class SessionsLauncher {
 
     public static void main(String[] args) {
 
-        DBaccess dBaccess = new DBaccess("OnlineSessions", "userOnlineSessions", "userOnlineSessionsPW");
+        DBaccess dBaccess =
+                new DBaccess("OnlineSessions","userOnlineSessions","userOnlineSessionsPW");
         dBaccess.openConnection();
 
-        TechnicusDAO technicusDAO = new TechnicusDAO(dBaccess);
-        technicusDAO.slaTechnicusOp(new Technicus("691337","Danny","0629400561"));
-
-        List<Technicus> techniciInDeDatabase = technicusDAO.getTechnici();
-
-        for (Technicus technicus : techniciInDeDatabase) {
-            System.out.println(technicus);
-        }
+        Muzikant adele = new Muzikant("Adele", "Zang", 12);
+        SessionDAO sessionDAO = new SessionDAO(dBaccess);
+        sessionDAO.slaSessionOp(new Session(adele, LocalDate.now(),2.5,false,4));
 
         dBaccess.closeConnection();
 
-    }
-}
+    } // main
+
+} // klasse
