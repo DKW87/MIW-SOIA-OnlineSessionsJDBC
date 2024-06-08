@@ -8,23 +8,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MuzikantDAO {
-
-    DBaccess dBaccess;
+public class MuzikantDAO extends AbstractDAO {
 
     public MuzikantDAO(DBaccess dBaccess) {
-        this.dBaccess = dBaccess;
+        super(dBaccess);
     }
 
     public void slaMuzikantOp(Muzikant muzikant) {
         String sql = "INSERT INTO muzikant VALUES(?, ?, ?);";
         try {
-            PreparedStatement preparedStatement =
-                dBaccess.getConnection().prepareStatement(sql);
+            setupPreparedStatement(sql);
             preparedStatement.setString(1, muzikant.getNaamMuzikant());
             preparedStatement.setString(2, muzikant.getInstrument());
             preparedStatement.setInt(3, muzikant.getJaarErvaring());
-            preparedStatement.executeUpdate();
+            executeManipulateStatement();
         } catch (SQLException sqlFout) {
             System.out.println(sqlFout);
         }
@@ -34,9 +31,8 @@ public class MuzikantDAO {
         List<Muzikant> muzikantenLijst = new ArrayList<>();
         String sql = "SELECT * FROM muzikant;";
         try {
-            PreparedStatement preparedStatement = 
-                dBaccess.getConnection().prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            setupPreparedStatement(sql);
+            ResultSet resultSet = executeSelectStatement();
             while (resultSet.next()) {
                 String artiestenNaam = resultSet.getString("artiestenNaam");
             String instrument = resultSet.getString("instrument");
@@ -49,4 +45,23 @@ public class MuzikantDAO {
         }
         return muzikantenLijst;
     }
+
+    public Muzikant getMuzikantPerNaam(String artiestenNaam){
+        Muzikant muzikant = null;
+        String sql = "SELECT * FROM muzikant WHERE artiestenNaam = ?;";
+        try {
+            setupPreparedStatement(sql);
+            preparedStatement.setString(1, artiestenNaam);
+            ResultSet resultSet = executeSelectStatement();
+            while (resultSet.next()) {
+                String instrument = resultSet.getString("instrument");
+                int jaarErvaring = resultSet.getInt("jaarErvaring");
+                muzikant = new Muzikant(artiestenNaam,instrument,jaarErvaring);
+            }
+        } catch (SQLException sqlFout) {
+            System.out.println(sqlFout);
+        }
+        return muzikant;
+    }
+
 }
