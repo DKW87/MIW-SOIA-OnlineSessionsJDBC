@@ -15,11 +15,13 @@ public class SessionsLauncher {
                 new DBaccess("OnlineSessions","userOnlineSessions","userOnlineSessionsPW");
         dBaccess.openConnection();
 
-        Muzikant adele = new Muzikant("Adele", "Zang", 12);
         SessionDAO sessionDAO = new SessionDAO(dBaccess);
-        sessionDAO.slaSessionOp(new Session(adele, LocalDate.now(),2.5,false,4));
-
+        List<Session> sessionsInDeDatabase = sessionDAO.getSessions();
         dBaccess.closeConnection();
+
+        for (Session session : sessionsInDeDatabase) {
+            System.out.println(session);
+        }
 
     } // main
 
