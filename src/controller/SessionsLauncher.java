@@ -29,6 +29,16 @@ public class SessionsLauncher {
         for (Session session : sessionsInDeDatabase) {
             System.out.println(session);
         }
+
+        int jaar = 2020;
+        int maand = 12;
+        Agenda agenda = new Agenda(maand, jaar);
+
+        for (Session session : sessionDAO.getSessionsPerMaandJaar(maand, jaar)) {
+            agenda.voegSessionToe(session);
+        }
+        System.out.println(agenda);
+
         dBaccess.closeConnection();
 
     } // main
